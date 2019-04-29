@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('third_api_id')->nullabe();
+            $table->string('third_api_id')->nullable()->default(null);
         });
     }
 

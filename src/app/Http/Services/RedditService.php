@@ -13,6 +13,7 @@ class RedditService
     private $_access_token;
     private $_user;
     private $_password;
+    private $_client;
 
     /**
      * Create a new controller instance.
@@ -27,6 +28,7 @@ class RedditService
         $this->_user = $user;
         $this->_password = $password;
         $this->_access_token = $this->_auth();
+        $this->_client = new Client();
     }
 
     /**
@@ -77,9 +79,7 @@ class RedditService
     public function createNewPost($title)
     {
         try {
-            $client = new Client();
-
-            $response = $client->post(
+            $response = $this->_client->post(
                 'https://oauth.reddit.com/api/submit',
                 [
                     'form_params' => [
@@ -96,9 +96,9 @@ class RedditService
                     ]
                 ]
             );
-            $data = $response->getBody()->getContents();
-            if (isset($data->errors)) {
-                throw new RedditException($data->errors);
+            $data = json_decode($response->getBody()->getContents());
+            if (isset($data->errors) && sizeof($data->erros) > 0 ) {
+                throw new RedditException($data->errors[0]);
             }
             return $data;
         } catch (ClientException $ce) {
@@ -108,5 +108,19 @@ class RedditService
             Log::error($e);
             throw new RedditException('Erro desconhecido ao criar o post, consulte os logs!', 500);
         }
+    }
+
+    /**
+     * Get all comments from a post id
+     *
+     * @param string $post_id post id
+     *
+     * @return Object with post and all comments
+     */
+    public function getComments($post_id)
+    {
+        $url = "https://www.reddit.com/comments/" . $post_id . "/.json";
+        $response = $this->_client->get($url);
+        return $response->getBody()->getContents();
     }
 }

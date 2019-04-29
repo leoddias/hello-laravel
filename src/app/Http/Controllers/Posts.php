@@ -49,7 +49,7 @@ class Posts extends Controller
                 );
 
                 $response = $redditService->createNewPost($post->title);
-                $post->third_api_id = $response->data->id;
+                $post->third_api_id = $response->json->data->id;
                 $post->save();
             }
             return response()->json($post->toArray(), 201);
