@@ -67,7 +67,9 @@ class RedditService
     /**
      * Create a new reddit post in user's profile.
      *
-     * @param string $title of the post
+     * @param string $title    of the post
+     * @param string $user     reddit's user
+     * @param string $password reddit's password
      *
      * @return array with response from reddit's api
      */
@@ -114,13 +116,14 @@ class RedditService
      *
      * @param string $post_id post id
      *
-     * @return Object with post and all comments
+     * @return array with all comments
      */
-    public function getComments($post_id)
+    private function _getComments($post_id)
     {
         try {
             $url = "https://www.reddit.com/comments/" . $post_id . "/.json";
-            $response = $this->_client->get($url,
+            $response = $this->_client->get(
+                $url,
                 [
                     'headers' =>
                     [
@@ -128,13 +131,22 @@ class RedditService
                     ],
                 ]
             );
-            return $this->_commentsToArray($response->getBody()->getContents());
+            return $this->_redditCommentsToArray(
+                $response->getBody()->getContents()
+            );
         } catch (\Exception $e) {
             Log::error('Erro ao tentar recueprar comentarios do post ' . $post_id . ' error: ' . $e->getMessage());
         }
     }
 
-    private function _commentsToArray($rawJson)
+    /**
+     * Put all comments from json to an array
+     *
+     * @param array $rawJson from reddits api
+     *
+     * @return array
+     */
+    private function _redditCommentsToArray($rawJson)
     {
         $dataJson = json_decode($rawJson);
         $array = [];
@@ -148,5 +160,53 @@ class RedditService
         }
 
         return $array;
+    }
+
+    /**
+     * Retrive all user information,
+     * requesting social networks api to
+     * fetch new comments an save them in the database.
+     *
+     * @param User $user object
+     *
+     * @return void.
+     */
+    public function fetchPostComments($user)
+    {
+        foreach ($user->posts as $post) {
+            $postComments = $this->_postCommentsToArray($post);
+            $redditComments = $this->_getComments($post->third_api_id);
+
+            foreach ($redditComments as $key => $comment) {
+                if (!in_array($key, $postComments)) {
+                    Comment::create(
+                        [
+                            'post_id' => $post->id,
+                            'title' => "Comment " . $key,
+                            'text' => $comment,
+                            'third_api_id' => $key,
+
+                        ]
+                    );
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Put all know reddit comment id in a array
+     *
+     * @param Post $post to use
+     *
+     * @return array
+     */
+    private function _postCommentsToArray($post)
+    {
+        $arr = [];
+        foreach ($post->comments as $userComment) {
+            $arr[] = $userComment->third_api_id;
+        }
+        return $arr;
     }
 }
