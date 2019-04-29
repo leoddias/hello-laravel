@@ -34,7 +34,6 @@ class Posts extends Controller
         $inputs = $request->only(['title', 'social_network']);
         Validator::make($inputs, $this->_rules())->validate();
         try {
-
             $post = Post::create(
                 [
                     'title' => $inputs['title'],
@@ -43,12 +42,14 @@ class Posts extends Controller
             );
 
             if (in_array('reddit', $inputs['social_network'])) {
-                $redditService = new RedditService(
+                $redditService = new RedditService();
+
+                $response = $redditService->createNewPost(
+                    $post->title,
                     $request->social_user,
                     $request->social_password
                 );
 
-                $response = $redditService->createNewPost($post->title);
                 $post->third_api_id = $response->json->data->id;
                 $post->save();
             }

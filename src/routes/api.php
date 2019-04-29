@@ -12,7 +12,14 @@ Route::group(
             'posts',
             'Posts',
             [
-                'only' => ['store'],
+                'only' => ['store', 'show', 'index'],
+            ]
+        );
+        Route::resource(
+            'users',
+            'Users',
+            [
+                'only' => ['show'],
             ]
         );
     }

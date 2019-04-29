@@ -18,16 +18,10 @@ class RedditService
     /**
      * Create a new controller instance.
      *
-     * @param string $user     reddit username
-     * @param string $password reddit password
-     *
      * @return void
      */
-    public function __construct($user, $password)
+    public function __construct()
     {
-        $this->_user = $user;
-        $this->_password = $password;
-        $this->_access_token = $this->_auth();
         $this->_client = new Client();
     }
 
@@ -76,8 +70,12 @@ class RedditService
      *
      * @return array with response from reddit's api
      */
-    public function createNewPost($title)
+    public function createNewPost($title, $user, $password)
     {
+        $this->_user = $user;
+        $this->_password = $password;
+        $this->_access_token = $this->_auth();
+
         try {
             $response = $this->_client->post(
                 'https://oauth.reddit.com/api/submit',
