@@ -5,9 +5,10 @@ namespace App\Http\Services;
 use App\Exceptions\RedditException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use Rudolf\OAuth2\Client\Provider\Reddit;
 use Log;
+use Rudolf\OAuth2\Client\Provider\Reddit;
 
+const COMMENT_TYPE = 't1';
 class RedditService
 {
     private $_access_token;
@@ -37,11 +38,11 @@ class RedditService
         try {
             $reddit = new Reddit(
                 [
-                    'clientId'      => env('REDIT_APP_ID'),
-                    'clientSecret'  => env('REDIT_APP_SECRET'),
-                    'redirectUri'   => 'http://github.com/leoddias/hellolaravel',
-                    'userAgent'     => 'laravel:hello:1.0, (by /u/leoddias)',
-                    'scopes'        => ['identity', 'read', 'submit'],
+                    'clientId' => env('REDIT_APP_ID'),
+                    'clientSecret' => env('REDIT_APP_SECRET'),
+                    'redirectUri' => 'http://github.com/leoddias/hellolaravel',
+                    'userAgent' => 'laravel:hello:1.0, (by /u/leoddias)',
+                    'scopes' => ['identity', 'read', 'submit'],
                 ]
             );
 
@@ -82,20 +83,20 @@ class RedditService
                 [
                     'form_params' => [
                         'api_type' => 'json',
-                        'sr' => 'u_'.$this->_user,
+                        'sr' => 'u_' . $this->_user,
                         'title' => $title,
                         'text' => 'Default Message for app hello-laravel',
                         'kind' => 'self',
-                        'uh' => 'f0f0f0f0'
+                        'uh' => 'f0f0f0f0',
                     ],
                     'headers' => [
                         "User-Agent" => 'laravel:hello:1.0, (by /u/leoddias)',
-                        'Authorization' => 'Bearer '. $this->_access_token,
-                    ]
+                        'Authorization' => 'Bearer ' . $this->_access_token,
+                    ],
                 ]
             );
             $data = json_decode($response->getBody()->getContents());
-            if (isset($data->errors) && sizeof($data->erros) > 0 ) {
+            if (isset($data->errors) && sizeof($data->erros) > 0) {
                 throw new RedditException($data->errors[0]);
             }
             return $data;
@@ -117,8 +118,35 @@ class RedditService
      */
     public function getComments($post_id)
     {
-        $url = "https://www.reddit.com/comments/" . $post_id . "/.json";
-        $response = $this->_client->get($url);
-        return $response->getBody()->getContents();
+        try {
+            $url = "https://www.reddit.com/comments/" . $post_id . "/.json";
+            $response = $this->_client->get($url,
+                [
+                    'headers' =>
+                    [
+                        "User-Agent" => 'laravel:hello:1.0, (by /u/leoddias)',
+                    ],
+                ]
+            );
+            return $this->_commentsToArray($response->getBody()->getContents());
+        } catch (\Exception $e) {
+            Log::error('Erro ao tentar recueprar comentarios do post ' . $post_id . ' error: ' . $e->getMessage());
+        }
+    }
+
+    private function _commentsToArray($rawJson)
+    {
+        $dataJson = json_decode($rawJson);
+        $array = [];
+
+        foreach ($dataJson as $data) {
+            foreach ($data->data->children as $datachild) {
+                if ($datachild->kind === COMMENT_TYPE) {
+                    $array[$datachild->data->id] = $datachild->data->body;
+                }
+            }
+        }
+
+        return $array;
     }
 }
