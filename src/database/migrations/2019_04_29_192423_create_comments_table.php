@@ -18,7 +18,7 @@ class CreateCommentsTable extends Migration
             $table->timestamps();
             $table->bigInteger('post_id')->unsigned();
             $table->foreign('post_id')->references('id')->on('posts');
-            $table->integer('third_api_id')->nullabe();
+            $table->string('third_api_id')->nullabe()->default(null);;
             $table->string('text');
             $table->string('title')->nullable();
         });
