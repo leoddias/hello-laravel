@@ -15,7 +15,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'title'
+        'title', 'user_id', 'third_api_id'
     ];
 
     public function user(): BelongsTo
