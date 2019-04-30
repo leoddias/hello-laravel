@@ -3,7 +3,8 @@
 > The purpose of this repository is to try laravel with RESTful concepts and use reddit's api to share a post and retrieve  comments to local db.
 
 ## How to
-- First rename .env.example to .env and check all vars before continue
+- Create an script application on [Reddit](https://www.reddit.com/prefs/apps) to get the keys
+- Rename .env.example to .env and check all vars before continue
 - For development add Volume in docker-compose (look for old commits)
 ```bash
 $ docker-compose up --build
