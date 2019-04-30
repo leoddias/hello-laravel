@@ -18,10 +18,11 @@ class Users extends Controller
      */
     public function show($id)
     {
+        //TODO Create Policy
         $user = User::with('posts.comments')->findOrFail($id);
 
         $redditService = new RedditService();
-        $user = $redditService->fetchPostComments($user);
+        $redditService->fetchPostsComments($user->posts);
 
         $user = User::with('posts.comments')->findOrFail($id);
 

@@ -18,7 +18,14 @@ class Posts extends Controller
      */
     public function index()
     {
+        //TODO Create Policy
         $posts = Post::with('user', 'comments')->get();
+
+        $redditService = new RedditService();
+        $redditService->fetchPostsComments($posts);
+
+        $posts = Post::with('user', 'comments')->get();
+
         return response()->json($posts);
     }
 
@@ -31,6 +38,7 @@ class Posts extends Controller
      */
     public function store(Request $request)
     {
+        //TODO Create Policy
         $inputs = $request->only(['title', 'social_network']);
         Validator::make($inputs, $this->_rules())->validate();
         try {
@@ -43,7 +51,8 @@ class Posts extends Controller
 
             if (in_array('reddit', $inputs['social_network'])) {
                 $redditService = new RedditService();
-
+                //TODO change 'social_network' to array of objects
+                // to include the type, user and password of social network
                 $response = $redditService->createNewPost(
                     $post->title,
                     $request->social_user,
@@ -82,8 +91,15 @@ class Posts extends Controller
      */
     public function show($id)
     {
-        $posts = Post::with('user', 'comments')->findOrFail($id);
-        return response()->json($posts);
+        //TODO Create Policy
+        $post = Post::with('user', 'comments')->findOrFail($id);
+
+        $redditService = new RedditService();
+        $redditService->fetchPostComments($post);
+
+        $post = Post::with('user', 'comments')->findOrFail($id);
+
+        return response()->json($post);
     }
 
     /**

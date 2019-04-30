@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Log;
 use Rudolf\OAuth2\Client\Provider\Reddit;
+use App\Comment;
 
 const COMMENT_TYPE = 't1';
 class RedditService
@@ -163,34 +164,45 @@ class RedditService
     }
 
     /**
-     * Retrive all user information,
-     * requesting social networks api to
-     * fetch new comments an save them in the database.
+     * For each post, request in reddit's api
+     * to fetch new comments and save them in the database
      *
-     * @param User $user object
+     * @param Collection $posts object list
      *
      * @return void.
      */
-    public function fetchPostComments($user)
+    public function fetchPostsComments($posts)
     {
-        foreach ($user->posts as $post) {
-            $postComments = $this->_postCommentsToArray($post);
-            $redditComments = $this->_getComments($post->third_api_id);
+        foreach ($posts as $post) {
+            $this->fetchPostComments($post);
+        }
+    }
 
-            foreach ($redditComments as $key => $comment) {
-                if (!in_array($key, $postComments)) {
-                    Comment::create(
-                        [
-                            'post_id' => $post->id,
-                            'title' => "Comment " . $key,
-                            'text' => $comment,
-                            'third_api_id' => $key,
+    /**
+     * Request in reddit's api to
+     * fetch new comments an save them in the database.
+     *
+     * @param Post $post object
+     *
+     * @return void.
+     */
+    public function fetchPostComments($post)
+    {
+        $postComments = $this->_postCommentsToArray($post);
+        $redditComments = $this->_getComments($post->third_api_id);
 
-                        ]
-                    );
-                }
+        foreach ($redditComments as $key => $comment) {
+            if (!in_array($key, $postComments)) {
+                Comment::create(
+                    [
+                        'post_id' => $post->id,
+                        'title' => "Comment " . $key,
+                        'text' => $comment,
+                        'third_api_id' => $key,
+
+                    ]
+                );
             }
-
         }
     }
 

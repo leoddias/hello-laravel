@@ -1,0 +1,115 @@
+{
+	"id": "c8e65e26-afda-c61f-7135-3c8c77e6ec3a",
+	"name": "Hello-Laravel",
+	"description": "",
+	"order": [
+		"d81d8053-be5c-54d0-0415-ea637a27d434",
+		"ed0a162a-1497-6f25-5b6a-a9accd8baa41",
+		"31b263dd-b50a-819f-6ab7-3b1ce8df0e8d"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1556544875711,
+	"owner": "3625455",
+	"public": false,
+	"requests": [
+		{
+			"id": "31b263dd-b50a-819f-6ab7-3b1ce8df0e8d",
+			"headers": "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC92MVwvbG9naW4iLCJpYXQiOjE1NTY1NzE4OTEsImV4cCI6MTU1NjU3NTQ5MSwibmJmIjoxNTU2NTcxODkxLCJqdGkiOiJaZjA0RGxBUUU5QXB0bnJwIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.J8HSMH-PDUvZiHPX9zRVghQzF8Afri1Da5QBY8rwPqo\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC92MVwvbG9naW4iLCJpYXQiOjE1NTY1NzE4OTEsImV4cCI6MTU1NjU3NTQ5MSwibmJmIjoxNTU2NTcxODkxLCJqdGkiOiJaZjA0RGxBUUU5QXB0bnJwIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.J8HSMH-PDUvZiHPX9zRVghQzF8Afri1Da5QBY8rwPqo",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/v1/users/1",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "c8e65e26-afda-c61f-7135-3c8c77e6ec3a",
+			"data": null,
+			"dataMode": "params",
+			"name": "Get Users with posts and comments",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1556632468160,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "d81d8053-be5c-54d0-0415-ea637a27d434",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/v1/login",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "c8e65e26-afda-c61f-7135-3c8c77e6ec3a",
+			"data": [],
+			"dataMode": "raw",
+			"name": "API Auth",
+			"description": "Send email and password to auth in \"hello-laravel\"\nReturns an access_token",
+			"descriptionFormat": "html",
+			"time": 1556564911204,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\t\n \"email\": \"user@test.com\",\n \"password\": \"123456\"\n}"
+		},
+		{
+			"id": "ed0a162a-1497-6f25-5b6a-a9accd8baa41",
+			"headers": "Content-Type: application/json\nAuthorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC92MVwvbG9naW4iLCJpYXQiOjE1NTY1NzE4OTEsImV4cCI6MTU1NjU3NTQ5MSwibmJmIjoxNTU2NTcxODkxLCJqdGkiOiJaZjA0RGxBUUU5QXB0bnJwIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.J8HSMH-PDUvZiHPX9zRVghQzF8Afri1Da5QBY8rwPqo\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC92MVwvbG9naW4iLCJpYXQiOjE1NTY1NzE4OTEsImV4cCI6MTU1NjU3NTQ5MSwibmJmIjoxNTU2NTcxODkxLCJqdGkiOiJaZjA0RGxBUUU5QXB0bnJwIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.J8HSMH-PDUvZiHPX9zRVghQzF8Afri1Da5QBY8rwPqo",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/v1/posts",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "c8e65e26-afda-c61f-7135-3c8c77e6ec3a",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Create new post",
+			"description": "To share in reddit you must to specify the array\n\"social_networks\": [\"reddit\"]",
+			"descriptionFormat": "html",
+			"time": 1556572085987,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"title\": \"New Title xD\",\n\t\"social_network\": [\"reddit\"],\n\t\"social_user\": \"reddit_user\",\n\t\"social_password\": \"reddit_pass\"\n}"
+		}
+	]
+}
