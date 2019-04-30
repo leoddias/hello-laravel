@@ -1,6 +1,6 @@
 # Hello Laravel
 
-> The purpose of this repository is to try laravel with RESTful concepts and use reddit's api to share a post and retrieve  comments from reddit to local db.
+> The purpose of this repository is to try laravel with RESTful concepts and use reddit's api to share a post and retrieve  comments to local db.
 
 ## How to
 - First rename .env.example to .env and check all vars before continue
@@ -26,4 +26,4 @@ $ curl localhost:8000
 - Import the file "hello-laravel.postman.json" to your postman.
 
 ## Observation
-- All new posts will be created in users "dashboard"
+- All new posts will be created in current user "dashboard"
