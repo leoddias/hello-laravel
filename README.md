@@ -1,5 +1,7 @@
 # Hello Laravel
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ea07928e9af64838bca4f4278b559164)](https://app.codacy.com/manual/leoddias/hello-laravel?utm_source=github.com&utm_medium=referral&utm_content=leoddias/hello-laravel&utm_campaign=Badge_Grade_Dashboard)
+
 > The purpose of this repository is to try laravel with RESTful concepts and use reddit's api to share a post and retrieve  comments to local db.
 
 ## How to
